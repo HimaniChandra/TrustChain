@@ -4,6 +4,7 @@ const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 const stakingRoutes = require("./staking"); // Import staking routes
 const { applyReputationDecay, initializeDecayTable } = require("./decay");
+const { logAction } = require('./auditLog'); // ✅ Audit log
 
 const app = express();
 const port = 3000;
@@ -59,6 +60,8 @@ app.post("/register", (req, res) => {
             if (err) {
                 return res.status(400).json({ error: "Username already exists" });
             }
+            // ✅ Audit log
+            logAction("User Registered", { username, stake_amount });
             res.json({ message: "User registered successfully", id: this.lastID });
         }
     );
@@ -91,6 +94,10 @@ app.post("/trust", (req, res) => {
             if (err) {
                 return res.status(500).json({ error: "Database error" });
             }
+
+            // ✅ Audit log (vote registered or updated)
+            logAction("Trust Vote Recorded", { from_user, to_user, trust: trustValue });
+
             db.get(
                 `SELECT SUM(trust) AS reputation FROM trust_votes WHERE to_user = ?`,
                 [to_user],
@@ -106,6 +113,9 @@ app.post("/trust", (req, res) => {
                             if (err) {
                                 return res.status(500).json({ error: "Failed to update reputation" });
                             }
+                            // ✅ Audit log (reputation updated)
+                            logAction("Reputation Updated", { to_user, newReputation });
+
                             res.json({ message: `Reputation updated for ${to_user}`, reputation: newReputation });
                         }
                     );
@@ -137,6 +147,9 @@ applyReputationDecay();
 
 app.post('/decay', (req, res) => {
     applyReputationDecay();
+    // ✅ Audit log (manual decay)
+    logAction("Reputation Decay Triggered", { source: "manual" });
+
     res.json({ message: 'Reputation decay triggered manually' });
 });
 
@@ -144,5 +157,4 @@ app.post('/decay', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
-
 
