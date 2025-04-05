@@ -1,4 +1,4 @@
-# Bitcoin Reputation Frontend
+# TrustChain Frontend
 
 This is the **React-based UI** for the Bitcoin Reputation System — a project built for the MIT Bitcoin Hackathon 2025. It provides a sleek, minimalist dashboard for interacting with trust, staking, reputation scores, and audit logs.
 
