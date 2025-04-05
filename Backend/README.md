@@ -1,115 +1,108 @@
-# TrustChain Backend
+# Bitcoin Reputation System - Backend
 
-This is the **backend API** for the Bitcoin Reputation System, built with **Node.js**, **Express**, and **SQLite3**. It handles all core logic around staking trust, computing reputation, decay mechanisms, and audit logging.
-
----
-
-## ⚙️ Features
-
-- Stake-based trust reputation system
-- Real-time reputation scoring
-- Automatic and manual decay logic
-- Full audit logging (`logs/auditlog.txt`)
-- Future-ready for Bitcoin & Lightning integration
+This is the **backend service** for the Bitcoin Reputation System. It exposes a REST API for staking trust, tracking user reputations, recording audit logs, and preparing for integration with the Lightning Network.
 
 ---
 
-## 📦 Tech Stack
+## Features
 
-- **Node.js**
-- **Express**
-- **SQLite3**
-- **dotenv**
-- **fs** (for log management)
-
----
-
-## 📁 Folder Layout
-
-```
-backend/
-├── service.js         # Main API entry point
-├── database.js        # DB setup + logic
-├── auditlog.js        # Real-time logging
-├── logs/
-│   └── auditlog.txt   # Stores all actions
-├── .env               # Config file
-└── README.md          # You are here!
-```
+- Stake trust points from one user to another
+- Fetch current reputation score of a user
+- View the audit trail of all transactions
+- Data persistence with SQLite3
+- Built with Express.js
 
 ---
 
-## ✅ How to Run the Backend
+## Setup Instructions
 
-### 📍 Step-by-step Setup
-
-1. **Navigate into backend folder**
-
+### 1. Navigate to the backend folder
 ```bash
 cd backend
 ```
 
-2. **Install dependencies**
-
+### 2. Install dependencies
 ```bash
 npm install
 ```
 
-3. **Create `.env` file**
-
+### 3. Start the server
 ```bash
-touch .env
+node index.js
 ```
 
-Paste the following into `.env`:
-
+Server should now be running at:
 ```
-DB_PATH=./reputation.db
-```
-
-4. **Start the backend server**
-
-```bash
-node service.js
-```
-
-You should see:
-```
-Server started on http://localhost:3000
+http://localhost:3000
 ```
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints & Try-it Commands
 
-| Route                 | Method | Description                          |
-|----------------------|--------|--------------------------------------|
-| `/stake`             | POST   | Stake trust between users            |
-| `/reputation/:user`  | GET    | Get reputation score for user        |
-| `/audit-log`         | GET    | View all audit logs                  |
-| `/decay`             | POST   | Trigger decay manually (dev only)    |
+Use the following `curl` commands to test out the backend locally.
 
----
-
-## 🧪 Example API Call (via cURL)
-
+### 1. Stake trust (create a trust transaction)
 ```bash
 curl -X POST http://localhost:3000/stake \
 -H "Content-Type: application/json" \
--d '{"from": "alice", "to": "bob", "amount": 20}'
+-d '{
+  "from": "alice",
+  "to": "bob",
+  "amount": 10
+}'
+```
+
+### 2. Reduce trust (same as staking negative points)
+```bash
+curl -X POST http://localhost:3000/stake \
+-H "Content-Type: application/json" \
+-d '{
+  "from": "bob",
+  "to": "alice",
+  "amount": -5
+}'
+```
+
+### 3. Get reputation of a user
+```bash
+curl http://localhost:3000/reputation/alice
+```
+
+### 4. Get the full audit log
+```bash
+curl http://localhost:3000/audit-log
 ```
 
 ---
 
-## 📝 Notes
-
-- All logs go to `logs/auditlog.txt`
-- Staking and decay events are recorded
-- Bitcoin & Lightning integration will come next
-- Frontend and backend are **not yet connected** in this version
+## Folder Structure (Backend)
+```
+backend/
+├── index.js               # Main backend server file
+├── db.sqlite              # Auto-generated SQLite database file
+├── package.json           # Backend dependencies and scripts
+├── .env                   # Environment variables
+```
 
 ---
 
-## 📄 License
+## Notes
 
+- Make sure port `3000` is available.
+- This backend **does not require any authentication** yet.
+- Future versions will integrate with the Lightning Network for trust payments.
+
+---
+
+## Example Workflow
+1. Alice stakes 10 points to Bob.
+2. Bob stakes 5 back to Alice.
+3. You view Alice's score.
+4. You view the audit log to see the trail.
+
+---
+
+## License
 MIT
+
