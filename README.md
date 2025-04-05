@@ -1,4 +1,4 @@
-# Bitcoin Reputation System
+# TrustChain - Bitcoin Reputation System
 
 ## Overview
 
