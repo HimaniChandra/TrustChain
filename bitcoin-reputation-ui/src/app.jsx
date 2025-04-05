@@ -1,23 +1,26 @@
-// src/App.jsx
-
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
+import Navbar from './components/Navbar';
+
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Staking from './pages/Staking';
 import Reputation from './pages/Reputation';
 import AuditLog from './pages/AuditLog';
 
-export default function App() {
+const App = () => {
   return (
     <Router>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="staking" element={<Staking />} />
-          <Route path="reputation" element={<Reputation />} />
-          <Route path="audit-log" element={<AuditLog />} />
-        </Route>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/staking" element={<Staking />} />
+        <Route path="/reputation" element={<Reputation />} />
+        <Route path="/audit-log" element={<AuditLog />} />
       </Routes>
     </Router>
   );
-}
+};
+
+export default App;

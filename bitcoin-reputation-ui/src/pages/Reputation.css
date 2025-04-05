@@ -1,0 +1,74 @@
+/* src/pages/Reputation.css */
+
+.reputation-container {
+    padding: 2rem;
+    color: #fff;
+  }
+  
+  .interaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .interaction-card {
+    background-color: #1e1e2f;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.1);
+  }
+  
+  .interaction-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  .user-id {
+    color: #00ffee;
+    font-weight: bold;
+  }
+  
+  .timestamp {
+    color: #aaa;
+    font-size: 0.85rem;
+  }
+  
+  .vote-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .trust-button {
+    background-color: #00cc99;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .distrust-button {
+    background-color: #cc0033;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .vote-status {
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+  
+  .vote-status.Trusted {
+    color: #00ffaa;
+  }
+  
+  .vote-status.Distrusted {
+    color: #ff6666;
+  }
+  
